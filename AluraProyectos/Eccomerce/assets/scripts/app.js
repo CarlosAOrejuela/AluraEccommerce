@@ -42,6 +42,9 @@ let content = '';
 
 
 
+//Codigo para al dar click a un producto se abr la informacion 
+
+
 function agregarProducto(){
   const verProductoBtns = document.querySelectorAll('.ver-producto-btn');
   verProductoBtns.forEach(btn => {
@@ -79,3 +82,32 @@ fetch(`https://fakestoreapi.com/products/${productoId}`)
       </section>
     `;
   });
+
+
+
+
+
+fetch('https://fakestoreapi.com/products?limit=5')
+    .then(res => res.json())
+    .then(data => {
+
+        let dataPrimera = data
+        let content = '';
+        for (let item of dataPrimera){
+            content += `
+                <figure class='contenedor-cards'>
+                <section class='imagenes-contenedor'>
+                    <img class='imagenes-cards' src="${item.image}" title="${item.title}">
+                    <figcaption class='title-cards'> ${item.title
+                    }</figcaption>
+                </section>
+                <section class='contenedor-descripcion'>
+                    <p class='description-cards'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel tincidunt nisl, sit amet posuere felis. </p>
+                    <p class='descripcion-precio'>$${item.price}</p>
+                    <a href = '#' class='button-cards'>Añadir</a>
+                </section>
+                </figure>
+            `;
+        }
+        document.querySelector('.contenedor-recomendaciones').innerHTML = content;
+    });
