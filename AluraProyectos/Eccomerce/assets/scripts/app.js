@@ -114,7 +114,7 @@ fetch('https://fakestoreapi.com/products?limit=5')
         const botonesAnadir = document.querySelectorAll('.boton-add');
         const modalCarrito = document.querySelector('.modal-carrito');
         const productoAdd = [];
-
+        
         botonesAnadir.forEach(boton => {
           boton.addEventListener('click', (event) => {
             event.preventDefault()
@@ -122,29 +122,86 @@ fetch('https://fakestoreapi.com/products?limit=5')
             const imagen = boton.getAttribute('data-imagen');
             const titulo = boton.getAttribute('data-titulo');
             const precio = boton.getAttribute('data-precio');
-
-            productoAdd.push({imagen, titulo, precio})
-      
-    
-            let contenidoModal = '';
-            for (let producto of productoAdd) {
-              contenidoModal += `
-                <figure>
-                <img src="${producto.imagen}" class='modal-image'>
-                <figcaption>${producto.titulo}</figcaption>
-                <p>${producto.precio}</p>
-                <button type='button' id='boton-eliminar'>
-                Eliminar
-                </button>
-                <div class='contenedor-total'>
-                </div>
-                </figure>
-              `;
+        
+            // Verificar si el producto ya existe en el carrito
+            const index = productoAdd.findIndex(producto => producto.titulo === titulo);
+            if (index !== -1) {
+              // Si el producto ya existe en el carrito, aumentar su cantidad
+              productoAdd[index].cantidad++;
+            } else {
+              // Si el producto no existe en el carrito, agregarlo con cantidad 1
+              productoAdd.push({imagen, titulo, precio, cantidad: 1})
             }
         
+            let contenidoModal = '';
+            let total = 0;
+            for (let producto of productoAdd) {
+              contenidoModal += `
+              <figure>
+              <img src="${producto.imagen}" class='modal-image'>
+              <figcaption class="modal-titulo-${producto.titulo}">${producto.titulo} x${producto.cantidad}</figcaption>
+              <p>${producto.precio}</p>
+              <button type='button' class='boton-eliminar' data-titulo="${producto.titulo}">
+              Eliminar
+              </button>
+              </figure>
+              `;
+              total += parseFloat(producto.precio.replace('$', '')) * producto.cantidad;
+            }
+            
+            contenidoModal += `
+              <div class='contenedor-total'>
+              Total: $${total}
+              </div>
+              <div class='contenedor-botones'>
+                <button type='button' id='boton-pagar'>Pagar</button>
+                <button type='button' id='boton-cancelar'>Cancelar</button>
+              </div>
+            `;
+            
             // Actualizar el contenido del modal
             modalCarrito.innerHTML = contenidoModal;
-        
+            
+            // Agregar evento de clic a los botones Eliminar
+            const botonesEliminar = document.querySelectorAll('.boton-eliminar');
+            botonesEliminar.forEach(botonEliminar => {
+              botonEliminar.addEventListener('click', (event) => {
+                event.preventDefault();
+                const titulo = botonEliminar.getAttribute('data-titulo');
+                const index = productoAdd.findIndex(producto => producto.titulo === titulo);
+                if (index !== -1) {
+                  if (productoAdd[index].cantidad > 1) {
+                    // Si hay más de una unidad del producto en el carrito, disminuir su cantidad
+                    productoAdd[index].cantidad--;
+                    botonEliminar.closest('figure').querySelector(`.modal-titulo-${titulo}`).innerHTML = `${titulo} x${productoAdd[index].cantidad}`;
+                  } else {
+                    // Si hay solo una unidad del producto en el carrito, eliminarlo
+                    productoAdd.splice(index, 1);
+                    botonEliminar.closest('figure').remove();
+                  }
+                  // Actualizar el total
+                  let total = 0;
+                  for (let producto of productoAdd) {
+                    total += parseFloat(producto.precio.replace('$', '')) * producto.cantidad;
+                  }
+                  document.querySelector('.contenedor-total').innerHTML = `Total: $${total}`;
+                  
+                  // Cerrar el modal si no hay productos en el carrito
+                  if (productoAdd.length === 0) {
+                    modalCarrito.style.display = 'none';
+                  }
+                }
+              });
+            });
+            
+            // Agregar evento de clic al botón Cancelar
+            const botonCancelar = document.querySelector('#boton-cancelar');
+            botonCancelar.addEventListener('click', (event) => {
+              event.preventDefault();
+              productoAdd.length = 0;
+              modalCarrito.style.display = 'none';
+            });
+            
             // Mostrar el modal
             modalCarrito.style.display = 'block';
           });
