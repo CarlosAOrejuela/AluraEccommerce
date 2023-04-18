@@ -64,7 +64,7 @@ html{
     color: var(--color-cuatro);    
 }
 
-#boton-search span{
+.material-symbols-outlined{
     background-color: transparent;
 }
 

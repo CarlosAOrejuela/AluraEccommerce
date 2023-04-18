@@ -1,44 +1,44 @@
-const botonSearch = document.getElementById('boton-search')
-let modalContenedor = document.querySelector('.principal-nav')
+// const botonSearch = document.getElementById('boton-search')
+// let modalContenedor = document.querySelector('.principal-nav')
 
 
-fetch('https://fakestoreapi.com/products')
-    .then(res => res.json())
-    .then(data => {   
-    // Filtrar los datos por categoría
-    const category1 = data.filter(item => item.category === "men's clothing");
-    const category2 = data.filter(item => item.category === "women's clothing");
-    const category3 = data.filter(item => item.category === "jewelery")
-    const category4 = data.filter(item => item.category === "electronics")
-    // ...
-    // Mostrar cada categoría en su contenedor correspondiente
-        displayCategory(category1, 'ropa-catalogo_hombres');
-        displayCategory(category2, 'ropa-catalogo_mujeres');
-        displayCategory(category3, 'catalogo-joyeria');
-        displayCategory(category4, 'catalogo-electronico')
-    // ...
-});
+// fetch('https://fakestoreapi.com/products')
+//     .then(res => res.json())
+//     .then(data => {   
+//     // Filtrar los datos por categoría
+//     const category1 = data.filter(item => item.category === "men's clothing");
+//     const category2 = data.filter(item => item.category === "women's clothing");
+//     const category3 = data.filter(item => item.category === "jewelery")
+//     const category4 = data.filter(item => item.category === "electronics")
+//     // ...
+//     // Mostrar cada categoría en su contenedor correspondiente
+//         displayCategory(category1, 'ropa-catalogo_hombres');
+//         displayCategory(category2, 'ropa-catalogo_mujeres');
+//         displayCategory(category3, 'catalogo-joyeria');
+//         displayCategory(category4, 'catalogo-electronico')
+//     // ...
+// });
 
-function displayCategory(data, containerId) {
-  // Obtener el contenedor
-    const container = document.getElementById(containerId);
-  // Crear el contenido del contenedor
-let content = '';
-    data.slice(0, 4).forEach(item => {
-      content += ` 
-      <div class='products-cards'>
-          <img src="${item.image}" alt="${item.title}" class="cards-img">
-          <p class='cards-title'>${item.title}</p>
-          <p class='cards-price'>$ ${item.price}</p>
-          <button type='button' class='ver-producto-btn' data-producto-id="${item.id}">Ver producto</button>
-      </div>
-      `;
-    });
-  // Actualizar el contenido del contenedor
-    container.innerHTML = content;
+// function displayCategory(data, containerId) {
+//   // Obtener el contenedor
+//     const container = document.getElementById(containerId);
+//   // Crear el contenido del contenedor
+// let content = '';
+//     data.slice(0, 4).forEach(item => {
+//       content += ` 
+//       <div class='products-cards'>
+//           <img src="${item.image}" alt="${item.title}" class="cards-img">
+//           <p class='cards-title'>${item.title}</p>
+//           <p class='cards-price'>$ ${item.price}</p>
+//           <button type='button' class='ver-producto-btn' data-producto-id="${item.id}">Ver producto</button>
+//       </div>
+//       `;
+//     });
+//   // Actualizar el contenido del contenedor
+//     container.innerHTML = content;
 
-    agregarProducto();
-}
+//     agregarProducto();
+// }
 
 
 
@@ -78,7 +78,7 @@ fetch(`https://fakestoreapi.com/products/${productoId}`)
       <section class='producto-subcontenedor'>
       <p class='producto-descripcion'>Descripción: ${producto.description}</p>
       <p class='producto-precio'>Precio: ${producto.price}</p>
-      <button type='button' class='producto-button'>Añadir</button>
+      <a href='javascript:void(0)' class='producto-button boton-add' data-imagen="${producto.image}" data-titulo="${producto.title}" data-precio="$${producto.price}">Añadir</a>
       </section>
     `;
   });
@@ -104,10 +104,52 @@ fetch('https://fakestoreapi.com/products?limit=5')
                 <section class='contenedor-descripcion'>
                     <p class='description-cards'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel tincidunt nisl, sit amet posuere felis. </p>
                     <p class='descripcion-precio'>$${item.price}</p>
-                    <a href = '#' class='button-cards'>Añadir</a>
+                    <a href = 'javascript:void(0)' class='button-cards boton-add' data-imagen="${item.image}" data-titulo="${item.title}" data-precio="$${item.price}">Añadir</a>
                 </section>
                 </figure>
             `;
         }
         document.querySelector('.contenedor-recomendaciones').innerHTML = content;
+
+        const botonesAnadir = document.querySelectorAll('.boton-add');
+        const modalCarrito = document.querySelector('.modal-carrito');
+        const productoAdd = [];
+
+        botonesAnadir.forEach(boton => {
+          boton.addEventListener('click', (event) => {
+            event.preventDefault()
+            // Obtener la información del producto desde los atributos data del botón
+            const imagen = boton.getAttribute('data-imagen');
+            const titulo = boton.getAttribute('data-titulo');
+            const precio = boton.getAttribute('data-precio');
+
+            productoAdd.push({imagen, titulo, precio})
+      
+    
+            let contenidoModal = '';
+            for (let producto of productoAdd) {
+              contenidoModal += `
+                <figure>
+                <img src="${producto.imagen}" class='modal-image'>
+                <figcaption>${producto.titulo}</figcaption>
+                <p>${producto.precio}</p>
+                <button type='button' id='boton-eliminar'>
+                Eliminar
+                </button>
+                <div class='contenedor-total'>
+                </div>
+                </figure>
+              `;
+            }
+        
+            // Actualizar el contenido del modal
+            modalCarrito.innerHTML = contenidoModal;
+        
+            // Mostrar el modal
+            modalCarrito.style.display = 'block';
+          });
+        });
     });
+
+
+

@@ -31,6 +31,11 @@
     width: 50%;
 }
 
+.producto-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .producto-button, .button-cards{
     width: 150px;
     height: 50px;
@@ -46,9 +51,15 @@
     transition: all .5s ease ;
 }
 
-.contenedor-recomendaciones{
+.recomendaciones{
     width: 90%;
-    margin: 40px;
+    margin: 50px auto;
+    text-align: center;
+    border: 2px solid var(--color-uno);
+    border-radius: 10px;
+    padding: 20px 0;
+}
+.contenedor-recomendaciones{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,6 +85,13 @@
     width: 30%;
     height: 200px;
     object-fit: contain;
+}
+
+.recomendaciones-title{
+    color: var(--color-cuatro);
+    font-weight: bold;
+    font-size: 25px;
+    letter-spacing: 1.5px;
 }
 
 .imagenes-contenedor{
@@ -109,10 +127,28 @@
     font-size: 22px;
 }
 
+.modal-carrito {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    /* Más estilos para el modal */
+  }
+
+.modal-image{
+    width: 30%;
+}
+
+
 @media screen and (max-width: 830px) {
     #prueba{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+        "primero segundo"
+        "tercero tercero"
+        ;
         justify-content: center;
         text-align: center;
     }
@@ -123,7 +159,24 @@
     }
 
     .producto-subcontenedor{
-        grid-area: 1 / 1 / 2 / 3;
-        flex-direction: row;
+        margin: 0 auto;
+        grid-area: tercero;
+        flex-direction: column;
+        width: 80%;
     }
+
+    .recomendaciones{
+        margin: 50px auto;
+    }
+
+    .contenedor-cards{
+        flex-direction: column;
+    }
+
+    .imagenes-cards{
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+    }
+
 }
