@@ -223,6 +223,7 @@ html{
     color: var(--color-blanco);
     border-radius: 25px;
     border: none;
+    cursor: pointer;
 }
 
 .products-cards button:hover{
