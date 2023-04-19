@@ -1,3 +1,4 @@
+import { addToCart } from '../scripts/cart.js';
 fetch('https://fakestoreapi.com/products?limit=5')
       .then(res => res.json())
       .then(data => {
@@ -15,13 +16,29 @@ fetch('https://fakestoreapi.com/products?limit=5')
                   <section class='contenedor-descripcion'>
                       <p class='description-cards'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel tincidunt nisl, sit amet posuere felis. </p>
                       <p class='descripcion-precio'>$${item.price}</p>
-                      <a href = 'javascript:void(0)' class='button-cards boton-add'>Añadir</a>
+                      <a href = 'javascript:void(0)' class='button-cards boton-add' data-id="${item.id}">Añadir</a>
                   </section>
                   </figure>
               `;
           }
           document.querySelector('.contenedor-recomendaciones').innerHTML = content;
+
+        const botonesAdd = document.querySelectorAll('.boton-add');
+        const contador = document.querySelector('.contador');
+
+        for (let botonAdd of botonesAdd) {
+            botonAdd.addEventListener('click', (event) => {
+                event.preventDefault();
+                let productId = event.target.dataset.id;
+                let product = data.find(item => item.id == productId);
+                addToCart(product);
+                let count = parseInt(contador.textContent);
+                count++;
+                contador.textContent = count;
+            });
+        }   
       });
+console.log(addToCart)
 
 
 
@@ -61,7 +78,7 @@ fetch('https://fakestoreapi.com/products?limit=5')
 //     let count = parseInt(contador.textContent);
 //     count++;
 //     contador.textContent = count;
-// });
+// 
 // Este código crea un botón con forma de carro en la esquina inferior derecha de la página y agrega un contador de notificación encima del botón. Cuando se hace clic en el botón “Añadir”, el contador se incrementa en uno.
 
-// Espero que esto te ayude. ¿Hay algo más en lo que pueda ayudarte?
+// Espero que esto te ayude. ¿Hay algo más en lo que pueda ayudarte
