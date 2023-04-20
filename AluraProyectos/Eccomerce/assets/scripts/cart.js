@@ -13,7 +13,6 @@ export function addToCart(product) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-console.log('removeFromCart')
 export function removeFromCart(productId) {
     let cart = getCart();
     if (cart[productId]) {
@@ -23,7 +22,6 @@ export function removeFromCart(productId) {
         }
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    console.log(cart)
 }
 
 export function getCart() {
