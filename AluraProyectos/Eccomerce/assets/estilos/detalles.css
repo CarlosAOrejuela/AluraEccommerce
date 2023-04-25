@@ -181,7 +181,7 @@
          text-align: center;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 1000px){
     #prueba{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -204,7 +204,8 @@
         flex-direction: column;
         width: 80%;
     }
-
+}
+@media screen and (max-width: 870px) {
     .recomendaciones{
         margin: 50px auto;
     }

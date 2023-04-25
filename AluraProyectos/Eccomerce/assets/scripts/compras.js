@@ -9,7 +9,7 @@ function actualizarCarrito() {
         content += `
             <div class='carrito-vacio'>
                 <p>No tienes ningun producto en el carrito</p>
-                <a href='./productos.html'>Regrea a nuestras ofertas</a>
+                <a class='boton-regresar' href='./productos.html'>Regresa a nuestras ofertas</a>
             </div>
         `
     }else {
@@ -18,22 +18,31 @@ function actualizarCarrito() {
             <div class="product">
                 <img src="${item.product.image}" alt="${item.product.title}">
                 <h3>${item.product.title}</h3>
-                <p>Precio: $${item.product.price}</p>
-                <p>Cantidad: ${item.count}</p>
+                <p class="product-precio">Precio: $${item.product.price}</p>
+                <p>Cantidad: <span>${item.count}</span></p>
                 <button class="boton-eliminar" data-id="${productId}">Eliminar</button>
             </div>
             `;
         }
+    }
+    
+    document.querySelector('.compras-productos').innerHTML = content;
 
-        let total = 0;
-        for (let [productId, item] of Object.entries(cart)){
-            total += item.product.price * item.count;
-        }
-        total = parseFloat(total.toFixed(2))
-        total = +total.toFixed(2)
-        content += `
+    let total = 0;
+    for (let [productId, item] of Object.entries(cart)){
+        total += item.product.price * item.count;
+    }
+    total = parseFloat(total.toFixed(2))
+    total = +total.toFixed(2)
+    let totalElement = document.querySelector('#total');
+    if (totalElement) {
+        // Si el contenedor total ya existe, actualiza su contenido
+        totalElement.textContent = `$${total}`;
+    } else {
+        // Si el contenedor total no existe, crea uno nuevo
+        let totalContent = `
             <div class='contenedor-total'>
-                <p>Total: $${total}</p>
+                <p>Total: <span id="total">$${total}</span></p>
                 <div class='total-botones'>
                     <button class='boton-pagar'>
                         Pagar
@@ -43,12 +52,10 @@ function actualizarCarrito() {
                     </button>
                 </div>
             </div>
-
         `
+        document.querySelector('.contenedor-compras').insertAdjacentHTML('beforeend', totalContent);
     }
-        document.querySelector('.contenedor-compras').innerHTML = content;
 
-        // Agregar eventos de escucha a los botones "Eliminar"
         const botonesEliminar = document.querySelectorAll('.boton-eliminar');
         for (let botonEliminar of botonesEliminar) {
             botonEliminar.addEventListener('click', (event) => {
