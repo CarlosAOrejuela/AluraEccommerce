@@ -1,3 +1,6 @@
+//Modulo que obtendra los datos de los productos y los guardara en el local storage
+//Para su posterior uso
+
 let cart = {};
 
 export function addToCart(product) {

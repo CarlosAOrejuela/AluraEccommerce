@@ -1,6 +1,6 @@
 import { getCart, removeFromCart } from '../scripts/cart.js';
 
-// Obtener el contenido del carrito
+// Obteniendo el codigo del carrito
 function actualizarCarrito() {
     let cart = getCart();
     let content = '';

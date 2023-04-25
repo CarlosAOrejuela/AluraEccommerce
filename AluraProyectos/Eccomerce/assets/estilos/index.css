@@ -57,15 +57,12 @@ html{
     left: 91%;
     border: none;
     color: var(--color-uno);
+    background-color: transparent;
 }
 
 #boton-search:hover{
     cursor: pointer;
     color: var(--color-cuatro);    
-}
-
-.material-symbols-outlined{
-    background-color: transparent;
 }
 
 .sesion{
@@ -196,6 +193,8 @@ html{
 
 .cards-price{
     padding: 10px 0;
+    font-weight: bold;
+    color: var(--color-negro);
 }
 
 

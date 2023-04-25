@@ -22,9 +22,9 @@ fetch('https://fakestoreapi.com/products')
 });
 
 function displayCategory(data, containerId) {
-  // Obtener el contenedor
+  // Obteniendo el contenedor
     const container = document.getElementById(containerId);
-  // Crear el contenido del contenedor
+  // Creamdo el contenido del contenedor
 let content = '';
     data.slice(0, 4).forEach(item => {
       content += ` 
