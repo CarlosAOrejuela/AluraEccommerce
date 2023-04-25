@@ -55,7 +55,7 @@ function agregarProducto(){
         .then(response => response.json())
         .then(producto => {
           // Redirigir al usuario a la página del producto con la información del producto
-          window.location.href = `/AluraProyectos/Eccomerce/PaginasAnexas/detalles.html?id=${producto.id}`;
+          window.location.href = `../Eccomerce/PaginasAnexas/detalles.html?id=${producto.id}`;
         });
     });
   });
