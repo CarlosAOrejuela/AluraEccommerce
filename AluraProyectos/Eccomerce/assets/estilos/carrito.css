@@ -1,0 +1,15 @@
+.contenedor-compras{
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+
+.product img{
+   width: 400px;
+   height: 400px;
+   object-fit: contain;
+}
